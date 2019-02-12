@@ -5,6 +5,7 @@ using UnityEngine;
 public class LerpCubeScript : MonoBehaviour {
 
     public GameObject _cube;
+
     public Vector3 _leftPosition;
     public Vector3 _rightPosition;
 
@@ -18,11 +19,16 @@ public class LerpCubeScript : MonoBehaviour {
     {
         float t = 0;
 
+
         while (t < 1)
         {
             t += Time.deltaTime;
-            Debug.Log(t);
-            _cube.transform.position = Vector3.Lerp(_leftPosition, _rightPosition, t);
+            float smoothStart = t * t;
+            float smoothStop = 1 - (1 - t) * (1 - t);
+            float tt = Lerp(smoothStart, smoothStop, t);
+            Debug.Log(tt);
+            _cube.transform.position = Vector3.Lerp(_leftPosition, _rightPosition, tt);
+            
             if(t >=1)
             {
                 _cube.transform.position = _rightPosition;
@@ -47,5 +53,14 @@ public class LerpCubeScript : MonoBehaviour {
         + "Right Position = " + _rightPosition;
         return s;
     }
+
+    float Lerp(float a, float b, float t)
+    {
+        return a + (b - a) * t;
+    }
+
+
+
+
 
 }
